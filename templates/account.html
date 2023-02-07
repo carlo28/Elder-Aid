@@ -1,0 +1,87 @@
+{% extends "base.html" %} {% block content %} {% load crispy_forms_tags %}
+
+<style type="text/css">
+	.form-signin {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+	}
+	.form-signin .form-control {
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 10px;
+	font-size: 16px;
+	}
+	.form-signin .form-control:focus {
+	z-index: 2;
+	}
+	.form-signin input[type="email"] {
+	margin-bottom: 10px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	}
+	.form-signin input[type="username"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	}
+	.h3{
+		text-align: center;
+	}
+	.meeting-posts{
+		max-width: 500px;
+		width: 100%;
+		margin: auto;
+	}
+</style>
+
+<form class="form-signin" method="post">{% csrf_token %}
+	<div class="d-flex flex-column pb-3">
+		<img class="img-fluid mx-auto d-block" src="https://i.ibb.co/s54bdnz/Elder-Aid-Logo-1.png" alt="Elder-Aid-Logo" width="72" height="72">
+	</div>
+	<h1 class="h3 mb-3 font-weight-normal">Account</h1>
+	<label for="inputEmail" class="sr-only">Email address</label>
+	<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus value="{{account_form.initial.email}}">
+	<label for="inputUsername" class="sr-only">Username</label>
+	<input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required value="{{account_form.initial.username}}">
+
+	{% for field in account_form %}
+		{% for error in field.errors %}
+			<p style="color: red">{{ error }}</p>
+		{% endfor %}
+	{% endfor %}
+
+	{% if account_form.non_field_errors %}
+		<div style="color:red "><p>{{ account_form.non_field_errors }}</p></div>
+	{% endif %}
+
+	{% if success_message %}
+		<p style="color:green; text-align: center;">{{success_message}}</p>
+	{% endif %}
+	<div class="d-flex justify-content-center mt-3">
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
+	</div>
+  </form>
+
+<div class="container mt-4 p-4">
+	<div class="row">
+		<div class="meeting-posts">
+			<h3 class="mb-3 font-weight-normal">Meeting Posts:</h3>
+			{% if meeting_posts %}
+			<ul class="list-group">
+				{% for post in meeting_posts %}
+				<a href="{% url 'meetings:detail' post.slug %}" style="text-decoration: none">
+					<li class="list-group-item">{{post}}</li>
+				</a>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<p>You have no meeting posts. Create a meeting <a href="{% url 'meetings:create' %}"></a></p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

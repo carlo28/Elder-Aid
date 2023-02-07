@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<style type="text/css">
+    .card {
+        max-width: 700px;
+    }
+    .container {
+        padding: 20px;
+    }
+
+</style>
+
+<div class="container">
+    <div class="row">
+
+        <div class="card m-auto">
+            <img class="card-img-top" src="{{meeting_post.image.url}}" >
+            <div class="card-body my-2">
+                <h2 class="card-title">{{meeting_post.title}}</h2>
+                <p class="card-text">{{meeting_post.location|safe}}</p>
+                {% if meeting_post.creator == request.user %}
+                    <a href="{% url 'meetings:edit' meeting_post.slug %}" class="btn btn-primary">Update</a>                
+                {% endif %}
+            </div>
+            <div class="card-footer text-muted">Updated by {{meeting_post.creator}}</div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
