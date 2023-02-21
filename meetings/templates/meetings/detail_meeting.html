@@ -14,15 +14,18 @@
     <div class="row">
 
         <div class="card m-auto">
-            <img class="card-img-top" src="{{meeting_post.image.url}}" >
+            <img class="card-img-top mt-3" src="{{meeting_post.image.url}}" >
             <div class="card-body my-2">
                 <h2 class="card-title">{{meeting_post.title}}</h2>
-                <p class="card-text">{{meeting_post.location|safe}}</p>
+                <h5 class="card-text">{{meeting_post.location}}</h5>
+                <br>
+                <p class="card-text">Activity: {{meeting_post.activity}}</p>
+                <p class="card-text">Meeting Time: {{meeting_post.time}}</p>
                 {% if meeting_post.creator == request.user %}
-                    <a href="{% url 'meetings:edit' meeting_post.slug %}" class="btn btn-primary">Update</a>                
+                    <a href="{% url 'meetings:edit' meeting_post.slug %}" class="btn btn-danger">Update</a>                
                 {% endif %}
             </div>
-            <div class="card-footer text-muted">Updated by {{meeting_post.creator}}</div>
+            <div class="card-footer text-muted">Organized by {{meeting_post.creator}}</div>
         </div>
 
     </div>

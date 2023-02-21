@@ -8,12 +8,11 @@ class RegistrationForm(UserCreationForm):
 	email = forms.EmailField(required=True, help_text='Required. Add a valid email address')
 	name = forms.CharField(max_length=120)
 	phone = forms.CharField(max_length=120)
-	is_an_elder = forms.BooleanField()
 	birthdate = forms.CharField(max_length=120)
 
 	class Meta:
 		model = Account
-		fields = ("username", "name", "email", "password1", "password2", "phone", "is_an_elder", "birthdate")
+		fields = ("username", "name", "email", "password1", "password2", "phone", "birthdate")
 
 	# def save(self, commit=True):
 	# 	user = super(RegistrationForm, self).save(commit=False)

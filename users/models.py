@@ -11,7 +11,6 @@ class User(models.Model):
     phone = models.CharField(max_length=120)
     email = models.EmailField()
     # password = models. To be completed
-    is_an_elder = models.BooleanField()
     birthday = models.CharField(max_length=120)
     # hobbies = models.To be completed
     # languages = models. To be completed
@@ -19,7 +18,7 @@ class User(models.Model):
     gps_location = models.CharField(max_length=120)
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, email, username, name, phone, is_an_elder, birthdate, password=None):
+    def create_user(self, email, username, name, phone, birthdate, password=None):
         if not email:
             raise ValueError("Users must have an email address")
         if not username:
@@ -28,8 +27,6 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Users must fill in their name")
         if not phone:
             raise ValueError("Users must insert their phone number")
-        if is_an_elder==None :
-            raise ValueError("Users must specify the type of account they are creating.")
         if not birthdate:
             raise ValueError("Users must register the date of birth")
         
@@ -38,7 +35,6 @@ class MyAccountManager(BaseUserManager):
             username = username,
             name = name,
             phone = phone,
-            is_an_elder = is_an_elder,
             birthdate = birthdate,
         )
 
@@ -46,14 +42,13 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,email, username, name, phone, is_an_elder, birthdate, password):
+    def create_superuser(self,email, username, name, phone, birthdate, password):
         user = self.create_user(
             email = self.normalize_email(email),
             password = password,
             username = username,
             name = name,
             phone = phone,
-            is_an_elder = is_an_elder,
             birthdate = birthdate,
         )
         user.is_admin = True
@@ -67,7 +62,6 @@ class Account(AbstractBaseUser):
     username = models.CharField(max_length=30, unique=True)
     name = models.CharField(max_length=50, verbose_name="name")
     phone = models.CharField(max_length=20, verbose_name="phone number")
-    is_an_elder = models.BooleanField()
     birthdate = models.DateField(max_length=120, verbose_name="date of birth")
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
@@ -78,7 +72,7 @@ class Account(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['username', 'name', 'phone', 'is_an_elder', 'birthdate']
+    REQUIRED_FIELDS = ['username', 'name', 'phone', 'birthdate']
 
     objects = MyAccountManager()
 

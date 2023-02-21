@@ -66,7 +66,7 @@ def home_view(request, *args, **kwargs):
 		query = request.GET.get('q', '')
 		context['query'] = str(query)
 		
-	meeting_posts = sorted(get_meeting_queryset(query), key=attrgetter('time'), reverse=True)
+	meeting_posts = sorted(get_meeting_queryset(query), key=attrgetter('time'), reverse=False)
 
 	page = request.GET.get('page', 1 )
 	meeting_posts_paginator = Paginator(meeting_posts, MEETING_POST_PER_PAGE)
